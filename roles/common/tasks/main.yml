@@ -1,0 +1,43 @@
+- name: Create main directory if not exists for plex
+  ansible.builtin.file:
+    path: "/data/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "medias"
+    - "database"
+    - "transcode"
+
+- name: Create media subfolder if not exists for plex
+  ansible.builtin.file:
+    path: "/data/medias/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "Movies"
+    - "TV Shows"
+
+- name: Docker container of Plex MediaServer
+  docker_container:
+    name: plex_MS
+    state: present
+    image: "plexinc/pms-docker:{{ plex_version }}"
+    network_mode: bridge
+    env:
+      TZ: "{{ timezone }}"
+      PLEX_CLAIM: "{{ claim_token }}"
+      ADVERTISE_IP: ""
+    ports:
+      - "32401:32400/tcp"
+      - "8324:8324/tcp"
+      - "32469:32469/tcp"
+      - "1900:1900/udp"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+    hostname: "PlexServer"
+    volumes:
+      - /data/database:/config
+      - /data/transcode:/transcode
+      - /data/medias:/data

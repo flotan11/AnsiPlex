@@ -1,0 +1,4 @@
+plex_version: 1.40.5.8897-e5987a19d
+timezone: Europe/Paris
+claim_token: "INSERT_YOUR_CLAIM_TOKEN_HERE (to have this token, link your account here : https://www.plex.tv/claim)"
+advertise_ip: "INSERT YOUR ADDITIONAL IP ON WHICH THE SERVER MAY BE FOUND. EXEMPLE: http://10.1.1.23:32401"
